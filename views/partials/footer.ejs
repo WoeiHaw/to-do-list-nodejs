@@ -1,0 +1,71 @@
+</main>
+</div>
+<footer>
+    Copyright © <%= new Date().getFullYear() %>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  
+    // Wait for the DOM to be fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        var id_list = [];
+        var type_to_do = "";
+        var unchek_box_id = [];
+       
+        $("input[type='checkbox']").change(function () {
+            var id = $(this).attr("id").split(" ")[0];
+            type_to_do = $(this).attr("id").split(" ")[1];
+            var text = $(`p[id = ${id}]`).text();
+            if ($(this).is(':checked')) {
+                
+                $(`p[id = ${id}]`).addClass("strikethrough");
+                id_list.push(id);
+                if (unchek_box_id.includes(id)){
+                    var index = unchek_box_id.indexOf(id);
+                    while(index !== -1){
+                        unchek_box_id.splice(index,1)
+                        index = unchek_box_id.indexOf(id);
+                    }
+                }
+                
+            }else{
+
+                $(`p[id = ${id}]`).removeClass("strikethrough");
+                unchek_box_id.push(id);
+                if (id_list.includes(id)){
+                    var index =id_list.indexOf(id);
+                    while(index !== -1){
+                        id_list.splice(index,1)
+                        index =id_list.indexOf(id);
+                    }
+                }
+               
+
+            }
+        });
+
+        $("button").click(function () {
+            
+            data_to_send = {
+                id : id_list,
+                type :type_to_do,
+                unchek_id : unchek_box_id
+            }
+            axios.post("/send_data", {data: JSON.stringify(data_to_send) })
+                .then(response => {
+                    console.log("Data send seccessfully")
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
+
+    });
+
+    
+
+</script>
+</body>
+</html>

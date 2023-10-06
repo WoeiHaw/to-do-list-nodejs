@@ -1,0 +1,87 @@
+
+<%- include("partials/header.ejs") %>
+
+<div class="list-container">
+    
+        
+            <div class="list-title">
+                <% if (type == "today"){;%>
+                    <% 
+                        d=new Date(); 
+                        const months = [
+                            'January', 'February', 'March', 'April',
+                            'May', 'June', 'July', 'August',
+                            'September', 'October', 'November', 'December'
+                        ];
+                        const days = [
+                            'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+                            'Thursday', 'Friday', 'Saturday'
+                        ];
+                    %>
+                <p>
+                    <%= days[d.getDay()]%>
+                    <br/>
+                    <%= d.getDate() %>
+                    <%= months[d.getMonth()]%>
+                    
+                    <br/>
+                    <%= d.getFullYear() %>
+                </p>
+                <% } else {%>
+                <p>
+                    Work List
+                </p>
+            
+            <% } %>
+            </div>
+        
+        
+    
+<div class="<%= `box ${locals.type}-box` %>">
+        <% if(locals.todoitems) {%>
+            <% for (let index = 0; index < todoitems.length; index++) {%>
+               
+                    <div class="to-do-list">
+                        <% if(type === "today") {%>
+                            <form action="/delete" method="POST">
+                        <% }else{ %>   
+                            <form action="/delete_work" method="POST">
+                        <% } %>             
+                                <input type="checkbox" name = "checkbox" class="inline-element" value = "<%= todoitems[index]._id %>" onchange="this.form.submit()">
+                            </form>
+                        
+                        <p class="inline-element" id = <%= index  %>><%= todoitems[index].item %></p>
+                        
+                    </div>
+                    <hr>  
+            <% } %>
+        <% } %>
+    
+
+       
+       <div class="to-do-list">
+       <% if (type == "today") {%>
+        <form action="/submit" method="POST">
+        <% } else { %>
+        <form action="/submit_work" method="POST">
+        <% } %>
+            <input type="text" name="newItem" placeholder="New Item" required oninvalid="this.setCustomValidity('Please do not enter empty data.')">
+            <input type="hidden">
+            <button type="submit">+</button>
+        </form>
+        <% if (type == "today") {%>
+        <form action="/save_today" method="POST">
+        <% }else{%>
+        <form action="/save_work" method="POST">
+        <% } %>
+            <button class="save-button" type="submit">Save</button>
+        </form>
+       </div>
+        
+
+    </div>
+</div>
+
+
+<%- include("partials/footer.ejs") %>
+
