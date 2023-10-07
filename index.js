@@ -13,7 +13,7 @@ const listTypeSchema = new mongoose.Schema({
 const List = mongoose.model("List",toDoListSchema)
 const ListType = mongoose.model("ListType", listTypeSchema)
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000 
 var todoList = []
 
 // var id_list_day = [] 
