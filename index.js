@@ -52,12 +52,13 @@ app.post("/delete",(req,res)=>{
         try{
             await List.deleteOne({_id:itemId});
             await ListType.updateOne({type:"daily"},{$pull:{toDo:{_id:itemId}}})
+            res.redirect("/")
         }catch(err){
             console.log(err)
         }
     })();
 
-    res.redirect("/")
+    
 })
 
 app.post("/delete_work",(req,res)=>{
@@ -66,12 +67,13 @@ app.post("/delete_work",(req,res)=>{
         try{
             await List.deleteOne({_id:itemId});
             await ListType.updateOne({type:"work"},{$pull:{toDo:{_id:itemId}}})
+            res.redirect("/work")
         }catch(err){
             console.log(err)
         }
     })();
 
-    res.redirect("/work")
+    
 })
 
 app.post("/submit",(req,res)=>{
