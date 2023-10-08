@@ -1,7 +1,8 @@
+import 'dotenv/config'
 import express from "express"
 import bodyParser from "body-parser"
 import mongoose from "mongoose"
-mongoose.connect('mongodb+srv://woeihaw94:ang0321zxc@cluster0.76ehtqz.mongodb.net/todoListDB',{useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser: true});
 const toDoListSchema = new mongoose.Schema({
     item:String,
 })
